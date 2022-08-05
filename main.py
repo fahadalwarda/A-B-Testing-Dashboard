@@ -4,10 +4,6 @@ import scipy as spy
 import matplotlib as plt
 
 
-x = np.linspace(- 3,  3, 100)
-y = spy.stats.norm.pdf(x, 0,1)
-
-
 
 def pvalue(z):
     pvalue= spy.stats.norm.sf(abs(z))
@@ -23,6 +19,9 @@ zscore = st.sidebar.slider('Zscore', min_value=-3.0, max_value=3.0, value=0.0, s
 st.sidebar.subheader('P-value')
 pvalue=st.sidebar.write( np.round_(pvalue(zscore),3))
 
+x = np.linspace(- 3,  3, 100)
+y = spy.stats.norm.pdf(x, 0,1)
+
 fig = plt.pyplot.figure(figsize=(14,6))
 ax1 = fig.add_subplot()
 ax1.plot(x, spy.stats.norm.pdf(x,0,1))
@@ -37,6 +36,7 @@ ax1.plot([-2.58,-2.58],[0,0.01], color='grey', linestyle='dashed')
 
 x_part = np.linspace(prob(alpha),  3, 100)
 x_part_neg = np.linspace(-3,  -1*prob(alpha), 100)
+
 ax1.fill_between(x_part, spy.stats.norm.pdf(x_part, 0,1 ))
 ax1.fill_between(x_part_neg, spy.stats.norm.pdf(x_part_neg, 0,1 ))
 ax1.scatter(zscore,0, marker="D", color='red')
