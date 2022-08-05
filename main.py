@@ -18,7 +18,7 @@ def prob(z):
     return shade
 
 st.title('A/B Testing')
-alpha = st.sidebar.radio('Significance level % (Alpha)', options = [0.01,0.05,0.1])
+alpha = st.sidebar.radio('Significance level (Alpha)', options = [0.01,0.05,0.1])
 zscore = st.sidebar.slider('Zscore', min_value=-3.0, max_value=3.0, value=0.0, step=0.01)
 st.sidebar.subheader('P-value')
 pvalue=st.sidebar.write( np.round_(pvalue(zscore),3))
