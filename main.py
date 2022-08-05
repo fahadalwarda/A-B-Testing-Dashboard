@@ -1,7 +1,7 @@
 import numpy as np
 import streamlit as st
 import scipy as spy
-import matplotlib.pyplot as plt
+import matplotlib as plt
 
 
 x = np.linspace(- 3,  3, 100)
@@ -23,7 +23,7 @@ zscore = st.sidebar.slider('Zscore', min_value=-3.0, max_value=3.0, value=0.0, s
 st.sidebar.subheader('P-value')
 pvalue=st.sidebar.write( np.round_(pvalue(zscore),3))
 
-fig = plt.figure(figsize=(14,6))
+fig = plt.pyplot.figure(figsize=(14,6))
 ax1 = fig.add_subplot()
 ax1.plot(x, spy.stats.norm.pdf(x,0,1))
 ax1.set_xticks((-2.58,-1.96,-1.64,0,1.64,1.96,2.58))
