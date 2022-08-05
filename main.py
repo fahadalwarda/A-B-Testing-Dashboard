@@ -1,21 +1,20 @@
 import numpy as np
 import streamlit as st
-
-import scipy.stats as stats
+import scipy as spy
 import matplotlib.pyplot as plt
 
 
 x = np.linspace(- 3,  3, 100)
-y = stats.norm.pdf(x, 0,1)
+y = spy.stats.norm.pdf(x, 0,1)
 
 
 
 def pvalue(z):
-    pvalue= stats.norm.sf(abs(z))
+    pvalue= spy.stats.norm.sf(abs(z))
     return pvalue
 
 def prob(z):
-    shade=stats.norm.ppf(1-z/2)
+    shade=spy.stats.norm.ppf(1-z/2)
     return shade
 
 st.title('A/B Testing')
@@ -26,7 +25,7 @@ pvalue=st.sidebar.write( np.round_(pvalue(zscore),3))
 
 fig = plt.figure(figsize=(14,6))
 ax1 = fig.add_subplot()
-ax1.plot(x, stats.norm.pdf(x,0,1))
+ax1.plot(x, spy.stats.norm.pdf(x,0,1))
 ax1.set_xticks((-2.58,-1.96,-1.64,0,1.64,1.96,2.58))
 ax1.plot([0,0],[0,0.4], color='black', linestyle='dashed')
 ax1.plot([1.96,1.96],[0,0.055], color='grey', linestyle='dashed')
@@ -35,8 +34,8 @@ ax1.plot([1.64,1.64],[0,0.1], color='grey', linestyle='dashed')
 ax1.plot([-1.64,-1.64],[0,0.1], color='grey', linestyle='dashed')
 ax1.plot([2.58,2.58],[0,0.01], color='grey', linestyle='dashed')
 ax1.plot([-2.58,-2.58],[0,0.01], color='grey', linestyle='dashed')
-ax1.fill_between(np.linspace(prob(alpha),  3, 100), stats.norm.pdf(np.linspace(prob(alpha),  3, 100), 0,1 ))
-ax1.fill_between(np.linspace(-3,  -1*prob(alpha), 100), stats.norm.pdf(np.linspace(-3,  -1*prob(alpha), 100), 0,1 ))
+ax1.fill_between(np.linspace(prob(alpha),  3, 100), spy.stats.norm.pdf(np.linspace(prob(alpha),  3, 100), 0,1 ))
+ax1.fill_between(np.linspace(-3,  -1*prob(alpha), 100), spy.stats.norm.pdf(np.linspace(-3,  -1*prob(alpha), 100), 0,1 ))
 ax1.scatter(zscore,0, marker="D", color='red')
 ax1.spines['bottom'].set_position(('outward', -15))
 ax1.spines['top'].set_visible(False)
