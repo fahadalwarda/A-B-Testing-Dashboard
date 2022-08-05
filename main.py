@@ -1,10 +1,9 @@
-from multiprocessing import shared_memory
 import numpy as np
 import streamlit as st
 
 import scipy.stats as stats
 import matplotlib.pyplot as plt
-import statistics
+
 
 x = np.linspace(- 3,  3, 100)
 y = stats.norm.pdf(x, 0,1)
