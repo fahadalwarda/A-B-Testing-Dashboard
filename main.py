@@ -3,8 +3,6 @@ import streamlit as st
 import scipy as spy
 import matplotlib as plt
 
-
-
 def pvalue(z):
     pvalue= spy.stats.norm.sf(abs(z))
     return pvalue
@@ -13,14 +11,20 @@ def prob(z):
     shade=spy.stats.norm.ppf(1-z/2)
     return shade
 
+mean =0
+sd =1
+x = np.linspace(- 3,  3, 100)
+ip= spy.stats.norm(mean,sd)
+y = ip.pdf(x)
+
 st.title('A/B Testing')
 alpha = st.sidebar.radio('Significance level (Alpha)', options = [0.01,0.05,0.1])
 zscore = st.sidebar.slider('Zscore', min_value=-3.0, max_value=3.0, value=0.0, step=0.01)
 st.sidebar.subheader('P-value')
 pvalue=st.sidebar.write( np.round_(pvalue(zscore),3))
 
-x = np.linspace(- 3,  3, 100)
-y = spy.stats.norm.pdf(x, 0,1)
+x_part = np.linspace(prob(alpha), 3, 100)
+x_part_neg = np.linspace(-3,  -1*prob(alpha), 100)
 
 fig = plt.pyplot.figure(figsize=(14,6))
 ax1 = fig.add_subplot()
@@ -34,11 +38,8 @@ ax1.plot([-1.64,-1.64],[0,0.1], color='grey', linestyle='dashed')
 ax1.plot([2.58,2.58],[0,0.01], color='grey', linestyle='dashed')
 ax1.plot([-2.58,-2.58],[0,0.01], color='grey', linestyle='dashed')
 
-x_part = np.linspace(prob(alpha),  3, 100)
-x_part_neg = np.linspace(-3,  -1*prob(alpha), 100)
-
-ax1.fill_between(x_part, spy.stats.norm.pdf(x_part, 0,1 ))
-ax1.fill_between(x_part_neg, spy.stats.norm.pdf(x_part_neg, 0,1 ))
+ax1.fill_between(x_part, ip.pdf(x_part))
+ax1.fill_between(x_part_neg, ip.pdf(x_part_neg))
 ax1.scatter(zscore,0, marker="D", color='red')
 ax1.spines['bottom'].set_position(('outward', -15))
 ax1.spines['top'].set_visible(False)
@@ -71,5 +72,4 @@ ax3.spines['top'].set_visible(False)
 ax3.spines['right'].set_visible(False)
 ax3.spines['left'].set_visible(False)
 ax3.get_yaxis().set_visible(False)
-
 st.pyplot(fig)
